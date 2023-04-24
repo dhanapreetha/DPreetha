@@ -1,0 +1,27 @@
+1.	Deleted vote pod
+        Services are showing as running; Vote pod got re-spawned
+        Both the web pages are accessible; The data in the results pod is retained and gets updated/modified when changes made in Vote web page
+        
+ 2.	Delete Worker pod
+Worker pod got re-spawned
+Both the web pages are accessible; data is retained, this could be because of the worker pod pulling data from redis pod and data was persistent/retained in redis pod
+
+3.	What happens after db pod deletion? 
+Backend, db pod is re-spawned and both result and worker pod restarted
+
+The data maintained in the db pod is lost and the web page is showing data pulled from new Voter and worker pod, which is restarted after db pod delete.
+ 
+4.	WHY result app STOPPED working after db pod stop
+     a.	It lost connection with the db pod, as db pod was deleted
+     b.	It establishes connection with db; but the table does not exists in db, hence throwing “Votes” does not exists
+
+5.	your answer to HOW YOU MADE THE RESULT POD work.
+    a.	No manual intervention needed to make the result pod work. 
+    b.	In the code of worker, if the connection with db is lost; it will keep trying to connect to the db. Once it re-connects to the db, the worker creates the table “votes” if it is not already existing. 
+    c. The results app also, try to re-connect to db app and once connection established, reads the table “votes” and display it.
+ 
+ 6.	Some jargons (just names are enough- dont need sentences) that you learnt from the Training session
+Replica set; Daemonset, statelessness, Nodeport
+
+
+
